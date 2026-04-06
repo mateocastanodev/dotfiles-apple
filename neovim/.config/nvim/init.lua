@@ -49,6 +49,7 @@ vim.pack.add({
 	'https://github.com/nvim-treesitter/nvim-treesitter', -- also $ brew install tree-sitter-cli
 	'https://github.com/neovim/nvim-lspconfig',
 	'https://github.com/karb94/neoscroll.nvim',
+	'https://github.com/mfussenegger/nvim-dap',
 	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
 })
 
@@ -79,7 +80,7 @@ vim.lsp.enable({
 })
 vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
 
--- Auto-format ("lint") on save.
+-- Auto-format ("lint") on save (adapted from neovim docs :help auto-format)
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', { clear = true }),
 	callback = function(ev)
@@ -106,3 +107,38 @@ require('neoscroll').setup({
 	easing = 'quadratic',
 	duration_multiplier = 0.30
 })
+
+-- Dap (debugging)
+local dap = require('dap')
+dap.adapters.debugpy = {
+	type = 'executable',
+	command = 'debugpy-adapter', -- also $ uv tool install debugpy@latest
+}
+dap.configurations.python = { -- https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
+	{
+		type = 'debugpy',
+		request = 'launch',
+		name = 'Launch file',
+		program = '${file}',
+		python = function()
+			local root = vim.fs.root(0, '.venv')
+			return { root and root .. '/.venv/bin/python' or 'python3' }
+		end,
+		cwd = function()
+			return vim.fs.root(0, '.venv') or vim.fn.getcwd()
+		end,
+	},
+}
+vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug toggle breakpoint' })
+vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Debug continue' })
+vim.keymap.set('n', '<leader>dq', dap.terminate, { desc = 'Debug terminate' })
+vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug open REPL' })
+vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug run last' })
+vim.keymap.set({ 'n', 'v' }, '<leader>dh', require('dap.ui.widgets').hover, { desc = 'Debug hover' })
+vim.keymap.set('n', '<leader>ds', function()
+	require('dap.ui.widgets').centered_float(require('dap.ui.widgets').scopes)
+end, { desc = 'Debug scopes' })
+vim.keymap.set('n', '<Down>', dap.step_over, { desc = 'Debug step over' })
+vim.keymap.set('n', '<Right>', dap.step_into, { desc = 'Debug step into' })
+vim.keymap.set('n', '<Left>', dap.step_out, { desc = 'Debug step out' })
+vim.keymap.set('n', '<Up>', dap.restart_frame, { desc = 'Debug restart frame' })
