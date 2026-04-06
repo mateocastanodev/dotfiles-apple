@@ -6,8 +6,9 @@ vim.g.maplocalleader = ' '
 vim.o.relativenumber = true
 vim.o.number = true -- display absolute line number instead of 0
 
--- Don't show mode (INSERT-NORMAL-...) in status line
-vim.o.showmode = false
+-- Case-insensitive searching unless we use capital letters
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 -- Sync vim and system clipboards
 vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
@@ -20,14 +21,14 @@ vim.o.ttimeoutlen = 1
 
 -- Vim diagnostics
 vim.diagnostic.config({
-  severity_sort = true, -- show most severe error first
-  update_in_insert = false, -- don't update while typing
-  float = { source = 'if_many' }, -- nicer look for floats and show source if multiple sources (ex. ruff and ty)
-  jump = { float = true }, -- automatically open the diagnostic float if you jump with [d ]d
+	severity_sort = true,    -- show most severe error first
+	update_in_insert = false, -- don't update while typing
+	float = { source = 'if_many' }, -- nicer look for floats and show source if multiple sources (ex. ruff and ty)
+	jump = { float = true }, -- automatically open the diagnostic float if you jump with [d ]d
 })
 
 -- Show diagnostics
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, {desc = 'Show diagnostics'})
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostics' })
 
 -- Easily move between windows
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -35,56 +36,73 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Highlight yanks 
+-- Highlight yanks
 vim.api.nvim_create_autocmd('TextYankPost', {
-  group = vim.api.nvim_create_augroup('highlight-yank', {clear = true}),
-  callback = function() vim.highlight.on_yank() end,
+	group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+	callback = function() vim.highlight.on_yank() end,
 })
 
 -- Plugins
 -- Pack guide: https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack#update
 vim.pack.add({
-  'https://github.com/ibhagwan/fzf-lua',
-  'https://github.com/nvim-treesitter/nvim-treesitter', -- also $ brew install tree-sitter-cli
-  'https://github.com/neovim/nvim-lspconfig',
-  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x')}, -- pinning so rust binary dependency automatically downloads
-  'https://github.com/karb94/neoscroll.nvim'
+	'https://github.com/ibhagwan/fzf-lua',
+	'https://github.com/nvim-treesitter/nvim-treesitter', -- also $ brew install tree-sitter-cli
+	'https://github.com/neovim/nvim-lspconfig',
+	'https://github.com/karb94/neoscroll.nvim',
+	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
 })
 
 -- FzfLua Setup
 require('fzf-lua').setup({
- keymap = {
-   builtin = {
-      ["<C-d>"]  = 'preview-page-down', -- Better scrolling within the displays
-      ["<C-u>"]  = 'preview-page-up',
-   },
- },
+	keymap = {
+		builtin = {
+			["<C-d>"] = 'preview-page-down', -- Better scrolling within the displays
+			["<C-u>"] = 'preview-page-up',
+		},
+	},
 })
 
-vim.keymap.set('n', '<leader><leader>', '<cmd>FzfLua files<cr>', { desc = 'Find files'})
-vim.keymap.set('n', '<leader>/', '<cmd>FzfLua live_grep<cr>', { desc = 'Find live grep'})
+vim.keymap.set('n', '<leader><leader>', '<cmd>FzfLua files<cr>', { desc = 'Find files' })
+vim.keymap.set('n', '<leader>/', '<cmd>FzfLua live_grep<cr>', { desc = 'Find live grep' })
 
 -- Treesitter
 vim.cmd('syntax off') -- Make it obvious if treesitter is missing
 vim.api.nvim_create_autocmd('FileType', {
- callback = function() pcall(vim.treesitter.start) end,
+	callback = function() pcall(vim.treesitter.start) end,
 })
 
 -- LSP
 vim.lsp.enable({
-  'ty', -- also $ uv tool install ty@latest
-  'ruff', -- also $ uv tool install ruff@latest
-  'lua_ls' -- also $ brew install lua-language-server
+	'ty',            -- also $ uv tool install ty@latest
+	'ruff',          -- also $ uv tool install ruff@latest
+	'lua_ls'         -- also $ brew install lua-language-server
 })
 vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
 
+-- Auto-format ("lint") on save.
+vim.api.nvim_create_autocmd('LspAttach', {
+	group = vim.api.nvim_create_augroup('my.lsp', { clear = true }),
+	callback = function(ev)
+		local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+		if not client:supports_method('textDocument/willSaveWaitUntil')
+		    and client:supports_method('textDocument/formatting') then
+			vim.api.nvim_create_autocmd('BufWritePre', {
+				group = vim.api.nvim_create_augroup('my.lsp.fmt', { clear = false }),
+				buffer = ev.buf,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = ev.buf, id = client.id, timeout_ms = 1000 })
+				end,
+			})
+		end
+	end,
+})
 -- Blink.cmp
 require('blink.cmp').setup({})
 
 -- Neoscroll
 require('neoscroll').setup({
-  hide_cursor = false,
-  stop_eof = false,
-  easing = 'quadratic',
-  duration_multiplier = 0.30
+	hide_cursor = false,
+	stop_eof = false,
+	easing = 'quadratic',
+	duration_multiplier = 0.30
 })
