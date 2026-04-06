@@ -4,6 +4,7 @@ vim.g.maplocalleader = ' '
 
 -- Relative line numbers
 vim.o.relativenumber = true
+vim.o.number = true
 
 -- Don't show mode (INSERT-NORMAL-...) in status line
 vim.o.showmode = false
@@ -20,6 +21,9 @@ vim.o.ttimeoutlen = 1
 -- Vim diagnostics
 vim.diagnostic.config({
   severity_sort = true, -- show most severe error first
+  update_in_insert = false, -- don't update while typing
+  float = { source = 'if_many' }, -- nicer look for floats and show source if multiple sources (ex. ruff and ty)
+  jump = { float = true }, -- automatically open the diagnostic float if you jump with [d ]d
 })
 
 -- Show diagnostics
@@ -38,9 +42,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Plugins
+-- Pack guide: https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack#update
 vim.pack.add({
   'https://github.com/ibhagwan/fzf-lua',
-  'https://github.com/nvim-treesitter/nvim-treesitter' -- also $ brew install tree-sitter-cli
+  'https://github.com/nvim-treesitter/nvim-treesitter', -- also $ brew install tree-sitter-cli
+  'https://github.com/neovim/nvim-lspconfig'
 })
 
 -- FzfLua Setup
@@ -61,3 +67,10 @@ vim.cmd('syntax off') -- Make it obvious if treesitter is missing
 vim.api.nvim_create_autocmd('FileType', {
  callback = function() pcall(vim.treesitter.start) end,
 })
+
+-- LSP
+vim.lsp.enable({
+  'ty', -- also $ uv tool install ty@latest
+  'ruff', -- also $ uv tool install ruff@latest
+})
+vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
