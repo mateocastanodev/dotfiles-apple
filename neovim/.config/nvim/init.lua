@@ -4,7 +4,7 @@ vim.g.maplocalleader = ' '
 
 -- Relative line numbers
 vim.o.relativenumber = true
-vim.o.number = true
+vim.o.number = true -- display absolute line number instead of 0
 
 -- Don't show mode (INSERT-NORMAL-...) in status line
 vim.o.showmode = false
@@ -46,14 +46,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.pack.add({
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/nvim-treesitter/nvim-treesitter', -- also $ brew install tree-sitter-cli
-  'https://github.com/neovim/nvim-lspconfig'
+  'https://github.com/neovim/nvim-lspconfig',
+  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x')} -- pinning so rust binary dependency automatically downloads
 })
 
 -- FzfLua Setup
 require('fzf-lua').setup({
  keymap = {
    builtin = {
-      ["<C-d>"]  = 'preview-page-down',
+      ["<C-d>"]  = 'preview-page-down', -- Better scrolling within the displays
       ["<C-u>"]  = 'preview-page-up',
    },
  },
@@ -72,5 +73,9 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.lsp.enable({
   'ty', -- also $ uv tool install ty@latest
   'ruff', -- also $ uv tool install ruff@latest
+  'lua_ls' -- also $ brew install lua-language-server
 })
 vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
+
+-- Blink.cmp
+require('blink.cmp').setup({})
