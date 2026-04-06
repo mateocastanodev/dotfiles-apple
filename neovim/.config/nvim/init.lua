@@ -47,7 +47,8 @@ vim.pack.add({
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/nvim-treesitter/nvim-treesitter', -- also $ brew install tree-sitter-cli
   'https://github.com/neovim/nvim-lspconfig',
-  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x')} -- pinning so rust binary dependency automatically downloads
+  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x')}, -- pinning so rust binary dependency automatically downloads
+  'https://github.com/karb94/neoscroll.nvim'
 })
 
 -- FzfLua Setup
@@ -79,3 +80,11 @@ vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
 
 -- Blink.cmp
 require('blink.cmp').setup({})
+
+-- Neoscroll
+require('neoscroll').setup({
+  hide_cursor = false,
+  stop_eof = false,
+  easing = 'quadratic',
+  duration_multiplier = 0.30
+})
