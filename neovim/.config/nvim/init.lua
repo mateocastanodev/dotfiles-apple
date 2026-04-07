@@ -55,6 +55,7 @@ vim.pack.add({
 	'https://github.com/esmuellert/codediff.nvim',
 	'https://github.com/goolord/alpha-nvim',
 	'https://github.com/rebelot/kanagawa.nvim',
+	'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
 })
 
@@ -71,6 +72,10 @@ require('kanagawa').setup({
 	}
 })
 vim.cmd('colorscheme kanagawa-wave') -- need to call after setup
+
+-- Markdown
+require('render-markdown').setup({})
+
 -- FzfLua Setup
 require('fzf-lua').setup({
 	keymap = {
