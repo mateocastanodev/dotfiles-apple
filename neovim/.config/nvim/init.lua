@@ -52,6 +52,7 @@ vim.pack.add({
 	'https://github.com/mfussenegger/nvim-dap',
 	'https://github.com/stevearc/oil.nvim',
 	'https://github.com/kdheepak/lazygit.nvim',
+	'https://github.com/esmuellert/codediff.nvim',
 	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
 })
 
@@ -153,5 +154,8 @@ require("oil").setup({
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
--- Lazygit.nvim
+-- Lazygit.nvim (also $ brew install lazygit
 vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
+
+-- Codediff (vscode like diffs :))
+require("codediff").setup({})
