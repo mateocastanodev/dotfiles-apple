@@ -50,6 +50,7 @@ vim.pack.add({
 	'https://github.com/neovim/nvim-lspconfig',
 	'https://github.com/karb94/neoscroll.nvim',
 	'https://github.com/mfussenegger/nvim-dap',
+	'https://github.com/stevearc/oil.nvim',
 	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
 })
 
@@ -79,7 +80,7 @@ vim.lsp.enable({
 	'lua_ls'         -- also $ brew install lua-language-server
 })
 vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
-
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 -- Auto-format ("lint") on save (adapted from neovim docs :help auto-format)
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', { clear = true }),
@@ -142,3 +143,11 @@ vim.keymap.set('n', '<Down>', dap.step_over, { desc = 'Debug step over' })
 vim.keymap.set('n', '<Right>', dap.step_into, { desc = 'Debug step into' })
 vim.keymap.set('n', '<Left>', dap.step_out, { desc = 'Debug step out' })
 vim.keymap.set('n', '<Up>', dap.restart_frame, { desc = 'Debug restart frame' })
+
+-- Oil.nvim
+require("oil").setup({
+	view_options = {
+		show_hidden = true,
+	},
+})
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
