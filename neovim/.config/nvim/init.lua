@@ -133,10 +133,20 @@ require('neoscroll').setup({
 
 -- Dap (debugging)
 local dap = require('dap')
-dap.adapters.debugpy = {
-	type = 'executable',
-	command = 'debugpy-adapter', -- also $ uv tool install debugpy@latest
-}
+dap.adapters.debugpy = function(cb, config)  -- also $ uv tool install debugpy@latest
+	if config.request == 'attach' then
+		cb({
+			type = 'server',
+			port = config.connect.port,
+			host = config.connect.host or '127.0.0.1',
+		})
+	else
+		cb({
+			type = 'executable',
+			command = 'debugpy-adapter',
+		})
+	end
+end
 dap.configurations.python = { -- https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
 	{
 		type = 'debugpy',
