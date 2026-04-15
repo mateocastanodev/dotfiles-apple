@@ -133,7 +133,7 @@ require('neoscroll').setup({
 
 -- Dap (debugging)
 local dap = require('dap')
-dap.adapters.debugpy = function(cb, config)  -- also $ uv tool install debugpy@latest
+dap.adapters.debugpy = function(cb, config) -- also $ uv tool install debugpy@latest
 	if config.request == 'attach' then
 		cb({
 			type = 'server',
