@@ -13,6 +13,19 @@ vim.o.smartcase = true
 -- Sync vim and system clipboards
 vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
+-- Copy to clipboard shortcuts
+vim.keymap.set('n', '<leader>cp', function()
+	local path = vim.fn.expand('%:p')
+	vim.fn.setreg('+', path)
+	vim.notify('Copied: ' .. path)
+end, { desc = 'Copy absolute path' })
+
+vim.keymap.set('n', '<leader>cr', function()
+	local path = vim.fn.expand('%')
+	vim.fn.setreg('+', path)
+	vim.notify('Copied: ' .. path)
+end, { desc = 'Copy relative path' })
+
 -- Raise dialog if you close unsaved buffer (prevent mistakes)
 vim.o.confirm = true
 
@@ -28,7 +41,7 @@ vim.diagnostic.config({
 })
 
 -- Show diagnostics
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostics' })
+vim.keymap.set('n', '<leader>D', vim.diagnostic.open_float, { desc = 'Show diagnostics' })
 
 -- Easily move between windows
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -77,17 +90,35 @@ vim.cmd('colorscheme kanagawa-wave') -- need to call after setup
 require('render-markdown').setup({})
 
 -- FzfLua Setup
-require('fzf-lua').setup({
+local fzf = require('fzf-lua')
+fzf.setup({
 	keymap = {
 		builtin = {
 			["<C-d>"] = 'preview-page-down', -- Better scrolling within the displays
 			["<C-u>"] = 'preview-page-up',
 		},
 	},
+	winopts = {
+		height  = 0.95, -- window height
+		width   = 0.90, -- window width
+		preview = {
+			layout   = 'vertical',
+			vertical = "down:30%",
+		}
+	},
+	files = {
+		formatter = 'path.filename_first',
+	},
 })
 
 vim.keymap.set('n', '<leader><leader>', '<cmd>FzfLua files<cr>', { desc = 'Find files' })
 vim.keymap.set('n', '<leader>/', '<cmd>FzfLua live_grep<cr>', { desc = 'Find live grep' })
+vim.keymap.set('n', '<leader>fr', '<cmd>FzfLua resume<cr>', { desc = 'Resume last picker' })
+vim.keymap.set('n', '<leader>,', '<cmd>FzfLua buffers<cr>', { desc = 'Buffers' })
+
+vim.keymap.set('n', 'grr', fzf.lsp_references, { desc = 'References' })
+vim.keymap.set('n', 'gri', fzf.lsp_implementations, { desc = 'Implementations' })
+vim.keymap.set('n', 'gra', fzf.lsp_code_actions, { desc = 'Code actions' })
 
 -- Treesitter
 vim.cmd('syntax off') -- Make it obvious if treesitter is missing
@@ -168,9 +199,6 @@ vim.keymap.set('n', '<leader>dq', dap.terminate, { desc = 'Debug terminate' })
 vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug open REPL' })
 vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug run last' })
 vim.keymap.set({ 'n', 'v' }, '<leader>dh', require('dap.ui.widgets').hover, { desc = 'Debug hover' })
-vim.keymap.set('n', '<leader>ds', function()
-	require('dap.ui.widgets').centered_float(require('dap.ui.widgets').scopes)
-end, { desc = 'Debug scopes' })
 vim.keymap.set('n', '<Down>', dap.step_over, { desc = 'Debug step over' })
 vim.keymap.set('n', '<Right>', dap.step_into, { desc = 'Debug step into' })
 vim.keymap.set('n', '<Left>', dap.step_out, { desc = 'Debug step out' })
@@ -189,6 +217,9 @@ vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
 
 -- Codediff (vscode like diffs :))
 require("codediff").setup({})
+vim.keymap.set('n', '<leader>ru', '<cmd>CodeDiff<cr>', { desc = 'Code diff not staged' })
+vim.keymap.set('n', '<leader>rm', '<cmd>CodeDiff main<cr>', { desc = 'Code diff main' })
+vim.keymap.set('n', '<leader>rh', '<cmd>CodeDiff HEAD~1<cr>', { desc = 'Code diff previous commit' })
 
 -- Start screen
 local alpha = require('alpha')
