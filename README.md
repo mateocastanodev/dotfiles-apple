@@ -1,14 +1,15 @@
 # dotfiles
 
-My personal configuration files for nvim, tmux, and ghostty. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
+My personal configuration files for neovim, tmux, ghostty, and zsh. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Structure
 
 ```
 dotfiles/
-├── nvim/.config/nvim/
+├── neovim/.config/nvim/
 ├── tmux/.tmux.conf
-└── ghostty/.config/ghostty/config
+├── ghostty/.config/ghostty/config
+└── zshrc/.zshrc
 ```
 
 ## Requirements
@@ -25,6 +26,7 @@ cd ~/dotfiles
 stow neovim
 stow tmux
 stow ghostty
+stow zshrc
 ```
 
 This creates symlinks from the expected config locations to the files in this repo.
@@ -34,13 +36,3 @@ This creates symlinks from the expected config locations to the files in this re
 1. Move the config file/folder into the dotfiles repo, mirroring the home directory structure
 2. Run `stow <package>` to create the symlink
 3. Commit and push
-
-## Keeping in sync
-
-```bash
-# pull latest changes
-cd ~/dotfiles && git pull
-
-# push changes after editing configs
-cd ~/dotfiles && git add . && git commit -m "update" && git push
-```
