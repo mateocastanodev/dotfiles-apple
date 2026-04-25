@@ -34,9 +34,9 @@ if [ -f '/Users/woutvossen/google-cloud-sdk/completion.zsh.inc' ]; then . '/User
 
 # File searching fzf + fd
 source <(fzf --zsh)
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude Library'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_ALT_C_COMMAND='fd --type d --exclude .git --exclude Library'
 
 alias vim=nvim
 alias venv="source .venv/bin/activate"
