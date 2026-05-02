@@ -57,7 +57,7 @@ alias cpwd='pwd | tr -d "\n" | pbcopy'
 # nvm is only loaded when one of these commands is first used.
 export NVM_DIR="$HOME/.nvm"
 _load_nvm() {
-  unset -f nvm node npm npx
+  unset -f nvm node npm npx pi
   [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 }
 
@@ -74,6 +74,11 @@ node() {
 npm() {
   _load_nvm
   npm "$@"
+}
+
+pi() {
+  _load_nvm
+  pi "$@"
 }
 
 npx() {
