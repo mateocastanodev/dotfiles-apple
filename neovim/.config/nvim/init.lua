@@ -29,6 +29,9 @@ end, { desc = 'Copy relative path' })
 -- Raise dialog if you close unsaved buffer (prevent mistakes)
 vim.o.confirm = true
 
+-- Disable swap files to prevent annoying errors
+vim.opt.swapfile = false
+
 -- Snappy escape
 vim.o.ttimeoutlen = 1
 

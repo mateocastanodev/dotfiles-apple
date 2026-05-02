@@ -17,9 +17,9 @@ eval "$(pyenv init -)"
 export PATH="/Users/woutvossen/.local/bin:$PATH"
 
 # go commands for the cli to work
-export GOPATH=$(go env GOPATH)
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOBIN
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
 
 # Expo development
 export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -29,11 +29,8 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/woutvossen/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/woutvossen/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/woutvossen/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/woutvossen/google-cloud-sdk/completion.zsh.inc'; fi
-
 # File searching fzf + fd
-source <(fzf --zsh)
+command -v fzf >/dev/null && source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude Library'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --exclude .git --exclude Library'
@@ -42,7 +39,8 @@ alias vim=nvim
 alias venv="source .venv/bin/activate"
 
 # set default editor
-export EDITOR=vim
+export EDITOR=nvim
+export VISUAL=nvim
 
 HISTSIZE=100000
 SAVEHIST=100000
@@ -55,7 +53,30 @@ setopt HIST_IGNORE_DUPS
 # Useful aliases
 alias cpwd='pwd | tr -d "\n" | pbcopy'
 
-# Necessary to load nvm (to not get npm errors) https://github.com/nvm-sh/nvm#installing-and-updating
+# Lazy-load nvm for faster shell startup.
+# nvm is only loaded when one of these commands is first used.
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+_load_nvm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+}
+
+nvm() {
+  _load_nvm
+  nvm "$@"
+}
+
+node() {
+  _load_nvm
+  node "$@"
+}
+
+npm() {
+  _load_nvm
+  npm "$@"
+}
+
+npx() {
+  _load_nvm
+  npx "$@"
+}
