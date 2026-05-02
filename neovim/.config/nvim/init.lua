@@ -95,6 +95,7 @@ require('render-markdown').setup({})
 -- FzfLua Setup
 local fzf = require('fzf-lua')
 fzf.setup({
+	ui_select = true,
 	keymap = {
 		builtin = {
 			["<C-d>"] = 'preview-page-down', -- Better scrolling within the displays
