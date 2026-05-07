@@ -123,7 +123,7 @@ vim.keymap.set('n', '<leader>,', '<cmd>FzfLua buffers<cr>', { desc = 'Buffers' }
 vim.keymap.set('n', 'grr', fzf.lsp_references, { desc = 'References' })
 vim.keymap.set('n', 'gri', fzf.lsp_implementations, { desc = 'Implementations' })
 vim.keymap.set('n', 'gra', fzf.lsp_code_actions, { desc = 'Code actions' })
-
+vim.keymap.set('n', 'gd', fzf.lsp_definitions, { desc = 'Go to definition' })
 -- Treesitter
 vim.cmd('syntax off') -- Make it obvious if treesitter is missing
 vim.api.nvim_create_autocmd('FileType', {
@@ -137,7 +137,6 @@ vim.lsp.enable({
 	'lua_ls'         -- also $ brew install lua-language-server
 })
 vim.o.signcolumn = 'yes' -- make lsp warnings not widen the gutter
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 -- Auto-format ("lint") on save (adapted from neovim docs :help auto-format)
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', { clear = true }),
@@ -210,8 +209,13 @@ vim.keymap.set('n', '<Up>', dap.restart_frame, { desc = 'Debug restart frame' })
 
 -- Oil.nvim
 require("oil").setup({
+	columns = { "mtime" },
 	view_options = {
 		show_hidden = true,
+		sort = {
+			{ "type",  "asc" },
+			{ "mtime", "desc" },
+		}
 	},
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
