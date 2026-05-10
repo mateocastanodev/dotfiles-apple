@@ -155,7 +155,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 })
 -- Blink.cmp
-require('blink.cmp').setup({})
+require('blink.cmp').setup({
+	signature = {
+		enabled = true,
+		window = { show_documentation = false },
+	},
+})
 
 -- Neoscroll
 require('neoscroll').setup({
