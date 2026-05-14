@@ -226,9 +226,29 @@ require("oil").setup({
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Lazygit.nvim
+local function git_line_history(start_line, end_line)
+	start_line, end_line = math.min(start_line, end_line), math.max(start_line, end_line)
+	local range = start_line .. ',' .. end_line .. ':' .. vim.fn.expand('%:t')
+	local command = { 'git', '-C', vim.fn.expand('%:p:h'), '--no-pager', 'log', '-L', range }
+	local output = vim.fn.systemlist(command)
+	local command_text = vim.fn.join(vim.tbl_map(vim.fn.shellescape, command), ' ')
+
+	vim.cmd('vnew')
+	vim.bo.buftype = 'nofile'
+	vim.bo.filetype = 'diff'
+	vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.list_extend({ command_text, '' }, output))
+	vim.bo.modified = false
+end
+
 vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
 vim.keymap.set('n', '<leader>gb', function() vim.ui.open(vim.fn.systemlist('git remote get-url origin')[1]) end,
 	{ desc = 'Open git remote' })
+vim.keymap.set('n', '<leader>gl', function()
+	git_line_history(vim.fn.line('.'), vim.fn.line('.'))
+end, { desc = 'Git line history' })
+vim.keymap.set('v', '<leader>gl', function()
+	git_line_history(vim.fn.line('v'), vim.fn.line('.'))
+end, { desc = 'Git line history' })
 
 -- Codediff (vscode like diffs :))
 require("codediff").setup({})
