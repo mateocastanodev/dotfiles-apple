@@ -10,6 +10,7 @@ dotfiles/
 ├── tmux/.tmux.conf
 ├── ghostty/.config/ghostty/config
 └── zshrc/.zshrc
+└── pi/.pi/agent/
 ```
 
 ## Requirements
@@ -27,6 +28,7 @@ stow neovim
 stow tmux
 stow ghostty
 stow zshrc
+stow pi
 ```
 
 This creates symlinks from the expected config locations to the files in this repo.
