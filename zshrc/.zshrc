@@ -76,11 +76,6 @@ npm() {
   npm "$@"
 }
 
-pi() {
-  _load_nvm
-  pi "$@"
-}
-
 npx() {
   _load_nvm
   npx "$@"
