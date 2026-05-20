@@ -1,3 +1,9 @@
 {
-  "tui.editor.newLine": ["n", "shift+enter"],
+  "tui.select.up": ["up", "ctrl+k", "ctrl+p"],
+  "tui.select.down": ["down", "ctrl+j", "ctrl+n"],
+  "app.thinking.cycle": ["ctrl+t"],
+  "app.model.cycleForward": [""],
+  "app.model.cycleBackward": [""],
+  "app.model.select": ["ctrl+p"],
+  "app.exit": ["ctrl+c", "ctrl+d"]
 }
