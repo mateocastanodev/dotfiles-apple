@@ -41,7 +41,7 @@
     "katanaGray": "#717C7C"
   },
   "colors": {
-    "accent": "crystalBlue",
+    "accent": "oldWhite",
     "border": "sumiInk4",
     "borderAccent": "crystalBlue",
     "borderMuted": "sumiInk3",
@@ -54,15 +54,15 @@
     "thinkingText": "oldWhite",
 
     "selectedBg": "waveBlue2",
-    "userMessageBg": "waveBlue1",
+    "userMessageBg": "sumiInk2",
     "userMessageText": "fujiWhite",
     "customMessageBg": "sumiInk2",
     "customMessageText": "fujiWhite",
     "customMessageLabel": "oniViolet",
-    "toolPendingBg": "winterBlue",
-    "toolSuccessBg": "winterGreen",
-    "toolErrorBg": "winterRed",
-    "toolTitle": "crystalBlue",
+    "toolPendingBg": "sumiInk1",
+    "toolSuccessBg": "sumiInk1",
+    "toolErrorBg": "sumiInk1",
+    "toolTitle": "oniViolet",
     "toolOutput": "oldWhite",
 
     "mdHeading": "carpYellow",
@@ -90,13 +90,13 @@
     "syntaxOperator": "boatYellow2",
     "syntaxPunctuation": "springViolet2",
 
-    "thinkingOff": "sumiInk4",
-    "thinkingMinimal": "waveAqua1",
-    "thinkingLow": "dragonBlue",
-    "thinkingMedium": "crystalBlue",
-    "thinkingHigh": "oniViolet",
-    "thinkingXhigh": "peachRed",
-    "bashMode": "surimiOrange"
+    "thinkingOff": "sumiInk1",
+    "thinkingMinimal": "sumiInk1",
+    "thinkingLow": "sumiInk1",
+    "thinkingMedium": "sumiInk1",
+    "thinkingHigh": "sumiInk1",
+    "thinkingXhigh": "sumiInk1",
+    "bashMode": "sumiInk1"
   },
   "export": {
     "pageBg": "#1F1F28",

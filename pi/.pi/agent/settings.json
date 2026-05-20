@@ -1,7 +1,10 @@
 {
-  "lastChangelogVersion": "0.75.3",
+  "lastChangelogVersion": "0.75.4",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "medium",
-  "theme": "kanagawa-wave"
+  "defaultThinkingLevel": "low",
+  "editorPaddingX": 1,
+  "quietStartup": true,
+  "theme": "kanagawa-wave",
+  "hideThinkingBlock": true
 }

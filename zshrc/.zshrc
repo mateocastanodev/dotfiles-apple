@@ -54,7 +54,6 @@ setopt HIST_IGNORE_DUPS
 alias cpwd='pwd | tr -d "\n" | pbcopy'
 
 # Pi
-export PATH="/Users/woutvossen/.bun/bin:$PATH"
 
 # Lazy-load nvm for faster shell startup.
 # nvm is only loaded when one of these commands is first used.
@@ -84,5 +83,7 @@ npx() {
   npx "$@"
 }
 
-# bun completions
-[ -s "/Users/woutvossen/.bun/_bun" ] && source "/Users/woutvossen/.bun/_bun"
+pi() {
+  _load_nvm
+  pi "$@"
+}

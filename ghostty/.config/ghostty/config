@@ -15,7 +15,7 @@ keybind = opt+shift+j=new_split:down
 keybind = opt+shift+k=new_split:up
 keybind = opt+shift+l=new_split:right
 keybind = ctrl+left_bracket=text:\x1b
-keybind = shift+enter=text:\x1b\r
+keybind = shift+enter=text:\x1b[13;2u
 
 macos-option-as-alt = true
 keybind = alt+up=esc:[1;3A
