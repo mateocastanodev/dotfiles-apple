@@ -1,6 +1,6 @@
 # dotfiles
 
-My personal configuration files for neovim, tmux, ghostty, and zsh. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
+My personal configuration files for neovim, tmux, ghostty, pi and zsh. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Structure
 
