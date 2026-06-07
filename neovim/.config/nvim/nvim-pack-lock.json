@@ -17,6 +17,10 @@
       "rev": "abacb0693d7a37de9e85e6fcb2d22d848cb75cef",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "guts.nvim": {
+      "rev": "a4fc46c5c5ca545e2e06b48d19c7e216c778fb8b",
+      "src": "https://github.com/vossenwout/guts.nvim"
+    },
     "kanagawa.nvim": {
       "rev": "aef7f5cec0a40dbe7f3304214850c472e2264b10",
       "src": "https://github.com/rebelot/kanagawa.nvim"
@@ -48,6 +52,10 @@
     "render-markdown.nvim": {
       "rev": "4ae2f2e8e8c66d070f33cfb57cb6f867e3baf5d9",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "vague.nvim": {
+      "rev": "fd58046b9d64259d9785e4aeb6d6f494c6943cad",
+      "src": "https://github.com/vague-theme/vague.nvim"
     }
   }
 }

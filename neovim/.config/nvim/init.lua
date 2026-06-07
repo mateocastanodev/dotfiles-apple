@@ -37,6 +37,7 @@ vim.o.ttimeoutlen = 1
 
 -- Vim diagnostics
 vim.diagnostic.config({
+	underline = false,       -- don't underline errors
 	severity_sort = true,    -- show most severe error first
 	update_in_insert = false, -- don't update while typing
 	float = { source = 'if_many' }, -- nicer look for floats and show source if multiple sources (ex. ruff and ty)
@@ -55,7 +56,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Highlight yanks
 vim.api.nvim_create_autocmd('TextYankPost', {
 	group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
-	callback = function() vim.highlight.on_yank() end,
+	callback = function() vim.highlight.on_yank({ timeout = 300 }) end,
 })
 
 -- Plugins
@@ -73,9 +74,12 @@ vim.pack.add({
 	'https://github.com/rebelot/kanagawa.nvim',
 	'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
+	'https://github.com/vossenwout/guts.nvim',
 })
 
--- Kanagawa
+-- Vague Colorscheme
+vim.pack.add({ 'https://github.com/vague-theme/vague.nvim' })
+-- Kanagawa Colorscheme
 require('kanagawa').setup({
 	colors = {
 		theme = {
@@ -87,7 +91,10 @@ require('kanagawa').setup({
 		}
 	}
 })
-vim.cmd('colorscheme kanagawa-wave') -- need to call after setup
+-- vim.cmd('colorscheme kanagawa-wave')
+-- Own Colorscheme
+vim.opt.runtimepath:append('/Users/woutvossen/Documents/programming/guts.nvim')
+vim.cmd.colorscheme("guts")
 
 -- Markdown
 require('render-markdown').setup({})
@@ -95,6 +102,17 @@ require('render-markdown').setup({})
 -- FzfLua Setup
 local fzf = require('fzf-lua')
 fzf.setup({
+	fzf_colors = false,
+	grep = {
+		rg_opts = table.concat({
+			"--column --line-number --no-heading --color=always --smart-case --max-columns=4096",
+			"--colors 'path:none'",
+			"--colors 'line:none'",
+			"--colors 'column:none'",
+			"--colors 'match:fg:225,255,229'",
+			"-e",
+		}, " "),
+	},
 	ui_select = true,
 	keymap = {
 		builtin = {
@@ -124,6 +142,9 @@ vim.keymap.set('n', 'grr', fzf.lsp_references, { desc = 'References' })
 vim.keymap.set('n', 'gri', fzf.lsp_implementations, { desc = 'Implementations' })
 vim.keymap.set('n', 'gra', fzf.lsp_code_actions, { desc = 'Code actions' })
 vim.keymap.set('n', 'gd', fzf.lsp_definitions, { desc = 'Go to definition' })
+
+vim.keymap.set('n', '<leader>fc', '<cmd>FzfLua colorschemes<cr>', { desc = 'Pick colorscheme' })
+
 -- Treesitter
 vim.cmd('syntax off') -- Make it obvious if treesitter is missing
 vim.api.nvim_create_autocmd('FileType', {
@@ -214,7 +235,15 @@ vim.keymap.set('n', '<Up>', dap.restart_frame, { desc = 'Debug restart frame' })
 
 -- Oil.nvim
 require("oil").setup({
-	columns = { "mtime" },
+	keymaps = {
+		["<C-h>"] = "<C-w>h",
+		["<BS>"] = "<C-w>h", -- only if your terminal sends Ctrl-h as BS
+		["<C-l>"] = "<C-w>l",
+		["<C-j>"] = "<C-w>j",
+		["<C-k>"] = "<C-w>k",
+	},
+	columns = {
+		{ "mtime", highlight = "Comment" } },
 	view_options = {
 		show_hidden = true,
 		sort = {

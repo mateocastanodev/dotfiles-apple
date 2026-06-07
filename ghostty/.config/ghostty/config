@@ -1,5 +1,5 @@
 font-family = "Fira Code Regular"
-theme = "Kanagawa Wave"
+theme = guts
 background-opacity = 1 
 background-blur = true
 font-size = 14
