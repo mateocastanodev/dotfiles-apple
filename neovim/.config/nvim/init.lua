@@ -71,9 +71,12 @@ vim.pack.add({
 	'https://github.com/kdheepak/lazygit.nvim',
 	'https://github.com/esmuellert/codediff.nvim',
 	'https://github.com/goolord/alpha-nvim',
-	'https://github.com/rebelot/kanagawa.nvim',
 	'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 	{ src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.x') }, -- pinning so rust binary dependency automatically downloads
+	-- Colorschemes
+	'https://github.com/rebelot/kanagawa.nvim',
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	'https://github.com/vague-theme/vague.nvim',
 	'https://github.com/vossenwout/guts.nvim',
 })
 
@@ -92,9 +95,13 @@ require('kanagawa').setup({
 	}
 })
 -- vim.cmd('colorscheme kanagawa-wave')
--- Own Colorscheme
+-- Guts Colorscheme
 vim.opt.runtimepath:append('/Users/woutvossen/Documents/programming/guts.nvim')
 vim.cmd.colorscheme("guts")
+
+-- Rose pine Colorscheme
+require("rose-pine").setup()
+--vim.cmd.colorscheme("rose-pine")
 
 -- Markdown
 require('render-markdown').setup({})
