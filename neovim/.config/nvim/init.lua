@@ -11,7 +11,10 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Sync vim and system clipboards
-vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
+vim.schedule(function()
+	vim.opt.clipboard:append('unnamedplus')
+	vim.g.clipboard = 'osc52' -- For copies over ssh to work
+end)
 
 -- Copy to clipboard shortcuts
 vim.keymap.set('n', '<leader>cp', function()
