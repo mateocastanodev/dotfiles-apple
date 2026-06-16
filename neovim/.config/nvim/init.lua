@@ -12,8 +12,15 @@ vim.o.smartcase = true
 
 -- Sync vim and system clipboards
 vim.schedule(function()
-	vim.opt.clipboard:append('unnamedplus')
-	vim.g.clipboard = 'osc52' -- For copies over ssh to work
+	local is_ssh = vim.env.SSH_TTY or vim.env.SSH_CONNECTION
+
+	if is_ssh then
+		vim.g.clipboard = "osc52"
+		vim.opt.clipboard = ""
+	else
+		vim.g.clipboard = nil
+		vim.opt.clipboard = "unnamedplus"
+	end
 end)
 
 -- Copy to clipboard shortcuts
