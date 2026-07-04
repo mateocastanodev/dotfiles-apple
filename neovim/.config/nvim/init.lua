@@ -113,8 +113,7 @@ require('kanagawa').setup({
 	}
 })
 -- vim.cmd('colorscheme kanagawa-wave')
--- Guts Colorscheme
-vim.opt.runtimepath:append('/Users/woutvossen/Documents/programming/guts.nvim')
+-- Guts Colorscheme (installed via vim.pack above: vossenwout/guts.nvim)
 vim.cmd.colorscheme("guts")
 
 -- Rose pine Colorscheme

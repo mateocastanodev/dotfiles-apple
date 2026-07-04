@@ -14,7 +14,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-export PATH="/Users/woutvossen/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # go commands for the cli to work
 export GOPATH="$HOME/go"
@@ -26,8 +26,8 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/woutvossen/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/woutvossen/google-cloud-sdk/path.zsh.inc'; fi
+# The next line updates PATH for the Google Cloud SDK (installed via Homebrew cask).
+if [ -f '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc' ]; then . '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc'; fi
 
 # File searching fzf + fd
 command -v fzf >/dev/null && source <(fzf --zsh)
